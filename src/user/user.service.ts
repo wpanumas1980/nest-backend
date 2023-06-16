@@ -23,15 +23,17 @@ export class UserService {
 
     async findOne(data): Promise<User> {
 
-        return this.userRepository.findOne({ where: data });
+        return await this.userRepository.findOne({ where: data });
     }
 
-    update(id: number, updateProductDto) {
-        return `This action updates a #${id} product`;
+  async  update(id: number, data): Promise<any> {
+
+        return await this.userRepository.update(id, data);
+
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} product`;
+   async remove(id: number) : Promise<any>{
+        return this.userRepository.delete(id);
     }
 
 
