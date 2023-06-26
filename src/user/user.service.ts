@@ -26,16 +26,30 @@ export class UserService {
         return await this.userRepository.findOne({ where: data });
     }
 
-  async  update(id: number, data): Promise<any> {
+    async update(id: number, data): Promise<any> {
 
         return await this.userRepository.update(id, data);
 
     }
 
-   async remove(id: number) : Promise<any>{
+    async remove(id: number): Promise<any> {
         return this.userRepository.delete(id);
     }
 
-
+    async paginate(page: number = 1): Promise<any> {
+        const take = 1;
+        const [users, total] =await this.userRepository.findAndCount({
+            take,
+            skip: (page - 1) * take
+        });
+        return {
+            data: users,
+            meta: {
+                total,
+                page,
+                last_page: Math.ceil(total / take)
+            }
+        }
+    }
 
 }

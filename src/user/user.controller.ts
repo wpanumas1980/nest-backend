@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcryptjs';
@@ -13,8 +13,8 @@ export class UserController {
     constructor(private readonly userService: UserService) { }
 
     @Get()
-    async findAll(): Promise<User[]> {
-        return await this.userService.findAll();
+    async findAll(@Query('page') page = 1): Promise<User[]> {
+        return await this.userService.paginate(page);
     }
 
     @Get(':id')
